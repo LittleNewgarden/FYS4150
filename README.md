@@ -2,7 +2,7 @@
 
 
 
-Problem 2:
+Problem 2:\n
   g++ oppgave2.cpp -o oppg2.exe
   ./oppg2.exe
   py oppgave2.py
