@@ -8,7 +8,7 @@ with open("u_x_output.txt", "r+") as file:
         words.append([float(line.split()[0]), float(line.split()[1])])
         
     words = (np.array(words))
-    print(words)
+
 
 
 #plotting u(x) as a function of x
