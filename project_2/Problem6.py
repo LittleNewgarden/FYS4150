@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 plt.style.use(["bmh"])
-plt.rcParams.update({"font.size": 15})#,
+plt.rcParams.update({"font.size": 11})#,
 
 
 # oppg 6 a)
