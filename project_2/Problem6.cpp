@@ -26,80 +26,79 @@ int main(){
     double epsilon = pow(10,-8); // convergens limit
 
 
-    // for n_steps = 10 keep "int N = 101;" commented out
-    // and for n_steps = 100 keep "int N = 11;" commented out
-    
-    int N = 11;     // defining size of matrix
-    // int N = 101;
+    vector<int> N_list = vector<int>{11,101}; 
+    for (int i = 0; i<2; i++){
+        int N = N_list[i];     // defining size of matrix
+        // int N = 101;
 
 
 
-    double h = (1.)/(N-1);  // defining step length
-    double d = 2./(h*h);    // defining diagonals
-    double a = -1./(h*h);
+        double h = (1.)/(N-1);  // defining step length
+        double d = 2./(h*h);    // defining diagonals
+        double a = -1./(h*h);
 
-    // creating tri diagonal symetric matrix
-    // not solving for edges, therfore N-2
-    mat A = sym_tri_diag_A(N-2, d, a);
+        // creating tri diagonal symetric matrix
+        // not solving for edges, therfore N-2
+        mat A = sym_tri_diag_A(N-2, d, a);
 
-    vec eigenvalues = vec(N-2);
-    mat eigenvectors = mat(N-2,N-2);
+        vec eigenvalues = vec(N-2);
+        mat eigenvectors = mat(N-2,N-2);
 
-    double maxiter = pow(10,7);  // maximum number of allowed iterations of the jacobi rotation 
-    int iterations;  // used to count itterations of jacobi rotations
-    bool converged; // used to check if solution converged
+        double maxiter = pow(10,7);  // maximum number of allowed iterations of the jacobi rotation 
+        int iterations;  // used to count itterations of jacobi rotations
+        bool converged; // used to check if solution converged
 
-    // function finding eigen values and eigen vectors of matrix A using jacobi rotations
-    Jacobi_rotation_algorithem(A, epsilon, eigenvalues, 
-            eigenvectors, maxiter, iterations, converged);
-
-
-    // finfing the idices of the eigenvalues in rising order
-    uvec index = sort_index(eigenvalues); 
-
-    // we want only the three smallest eigen vectors
-    // and now have size N since we want to add endpoints
-    mat eigen_vec_full = mat(N,3).fill(0.);
+        // function finding eigen values and eigen vectors of matrix A using jacobi rotations
+        Jacobi_rotation_algorithem(A, epsilon, eigenvalues, 
+                eigenvectors, maxiter, iterations, converged);
 
 
-    // inptting the vanted eigen vectors into eigen_vec_full
-    for (int i = 0; i< (int) eigen_vec_full.n_rows-2; i++){
-        for (int j = 0; j< (int) eigen_vec_full.n_cols; j++){
-            eigen_vec_full(i+1,j) = eigenvectors(i,index(j));
+        // finfing the idices of the eigenvalues in rising order
+        uvec index = sort_index(eigenvalues); 
 
+        // we want only the three smallest eigen vectors
+        // and now have size N since we want to add endpoints
+        mat eigen_vec_full = mat(N,3).fill(0.);
+
+
+        // inptting the vanted eigen vectors into eigen_vec_full
+        for (int i = 0; i< (int) eigen_vec_full.n_rows-2; i++){
+            for (int j = 0; j< (int) eigen_vec_full.n_cols; j++){
+                eigen_vec_full(i+1,j) = eigenvectors(i,index(j));
+
+            }
         }
-    }
 
-    // saving the eigen vectors to a file
-    string name = "prob6_" +  std::to_string(N) + ".txt";
-    eigen_vec_full.save(name,raw_ascii);
-
-
-    // now finding eigen values and eigen vectors for the same matrix using the analytical method
-    mat analytical_eigenvectors = mat(N-2,N-2);
-    vec analytical_eigenvalues = vec(N-2);
-
-    analytical_sym_tri_N6(N-2, d, a, analytical_eigenvectors, analytical_eigenvalues);
+        // saving the eigen vectors to a file
+        string name = "prob6_" +  std::to_string(N) + ".txt";
+        eigen_vec_full.save(name,raw_ascii);
 
 
-    // finfing the idices of the eigenvalues in rising order
-    index = sort_index(analytical_eigenvalues);
+        // now finding eigen values and eigen vectors for the same matrix using the analytical method
+        mat analytical_eigenvectors = mat(N-2,N-2);
+        vec analytical_eigenvalues = vec(N-2);
 
-    // we want only the three smallest eigen vectors
-    // and now have size N since we want to add endpoints
-    mat analytical_eigen_vec_full = mat(N,3).fill(0.);
+        analytical_sym_tri_N6(N-2, d, a, analytical_eigenvectors, analytical_eigenvalues);
 
-    // inptting the vanted eigen vectors into eigen_vec_full
-    for (int i = 0; i< (int) eigen_vec_full.n_rows-2; i++){
-        for (int j = 0; j< (int) eigen_vec_full.n_cols; j++){
-            analytical_eigen_vec_full(i+1,j) = analytical_eigenvectors(i,index(j));
+
+        // finfing the idices of the eigenvalues in rising order
+        index = sort_index(analytical_eigenvalues);
+
+        // we want only the three smallest eigen vectors
+        // and now have size N since we want to add endpoints
+        mat analytical_eigen_vec_full = mat(N,3).fill(0.);
+
+        // inptting the vanted eigen vectors into eigen_vec_full
+        for (int i = 0; i< (int) eigen_vec_full.n_rows-2; i++){
+            for (int j = 0; j< (int) eigen_vec_full.n_cols; j++){
+                analytical_eigen_vec_full(i+1,j) = analytical_eigenvectors(i,index(j));
+            }
         }
+
+        // saving the eigen vectors to a file
+        name = "prob6_analytical_" +  std::to_string(N) + ".txt";
+        analytical_eigen_vec_full.save(name,raw_ascii);
     }
-
-    // saving the eigen vectors to a file
-    name = "prob6_analytical_" +  std::to_string(N) + ".txt";
-    analytical_eigen_vec_full.save(name,raw_ascii);
-
     return 0;
 }
 
