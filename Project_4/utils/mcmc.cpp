@@ -6,6 +6,38 @@ using namespace std;
 using namespace arma;
 
 
+// Initialising the refence matrix using the state matrix
+vector<vector<double *>> ref_mat(mat& S)
+{
+    int height = S.n_rows;
+    int width = S.n_cols;
+
+    vector<vector<double *>> Sref(height+2,vector<double*>(width+2, 0)) ;
+
+    for (int i=0; i< height; i++)
+    {
+        for (int j = 0; j<width;j++)
+        {
+            Sref[i+1][j+1] = &S.row(i)[j];
+        }
+    }
+
+    for (int i = 0; i < height; i++)
+    {
+        Sref[i+1][0] = &S.row(i)[width-1];
+        Sref[i+1][width+1] = &S.row(i)[0];
+    }
+
+    for (int j=0; j<width;j++)
+    {
+        Sref[0][j+1] = &S.row(height-1)[j];
+        Sref[height+1][j+1] = &S.row(0)[j];
+    }
+
+    return Sref;
+}
+
+
 
 // function used to initiallise the state matirx and return the initial magnetization based on the percentage of spin down
 int initial_S_M0(mat& S, double percent)
@@ -49,36 +81,7 @@ double initial_Sref_E0(mat& S, vector<vector<double *>>& Sref)
 }
 
 
-// Initialising the refence matrix using the state matrix
-vector<vector<double *>> ref_mat(mat& S)
-{
-    int height = S.n_rows;
-    int width = S.n_cols;
 
-    vector<vector<double *>> Sref(height+2,vector<double*>(width+2, 0)) ;
-
-    for (int i=0; i< height; i++)
-    {
-        for (int j = 0; j<width;j++)
-        {
-            Sref[i+1][j+1] = &S.row(i)[j];
-        }
-    }
-
-    for (int i = 0; i < height; i++)
-    {
-        Sref[i+1][0] = &S.row(i)[width-1];
-        Sref[i+1][width+1] = &S.row(i)[0];
-    }
-
-    for (int j=0; j<width;j++)
-    {
-        Sref[0][j+1] = &S.row(height-1)[j];
-        Sref[height+1][j+1] = &S.row(0)[j];
-    }
-
-    return Sref;
-}
 
 
 // One MC cycle finding the new energy, new magnetization and the new state S
