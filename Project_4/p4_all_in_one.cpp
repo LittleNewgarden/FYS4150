@@ -79,8 +79,9 @@ int main()
     // finding the time before the parallelized or non-parallelized code
     auto t1 = std::chrono::high_resolution_clock::now();  
 
+    // parallized code
 
-    #ifdef _OPENMP    // parallized code
+    #ifdef _OPENMP    
     {
         int nThreads = omp_get_max_threads() ;  // geting max number of threads
 
@@ -94,7 +95,7 @@ int main()
         #pragma omp parallel for
         for (int i = 0; i < Tn; i++)   // parallelized for loop
         {
-
+            arma_rng::set_seed_random() ;  
             mat S = S0 ;                           // initial state is the same for each temperature
             vector<vector<double *>> Sref ;        // declearing the reference matrix 
             int M_0 = M0 ;                         // magnetization is the same for each temperature
@@ -136,17 +137,15 @@ int main()
     }
     #else
     {
-        mat S ;                            // declearing the initial matrix
-        vector<vector<double *>> Sref ;         // declearing the reference matrix and initial magnetization
-        double E0 = initial_Sref_E0(S, Sref) ; // geting inital valu of energy and initialising
-
         for (int i = 0; i < Tn; i++)
         {
-            S = S0 ;          // initial state is the same for each temperature
-            double E_0 = E0 ; // initial energy is the same for each temperature
-            int M_0 = M0 ;    // initial magnetization is the same for each temperature
-            
-            mat EM = MCMC(N, NN, T_list[i], S, Sref, E_0, M_0) ;  // using MCMC to find the energy and magnetization of lattice
+            mat S = S0 ;                           // initial state is the same for each temperature
+            vector<vector<double *>> Sref ;        // declearing the reference matrix 
+            int M_0 = M0 ;                         // magnetization is the same for each temperature
+            double E_0 = initial_Sref_E0(S, Sref); // initiallization of Sref so that it points to S, and get initial energy
+
+            mat EM = MCMC(N, NN, T_list[i], S, Sref, E_0, M_0);   // using MCMC to find the energy and magnetization of lattice
+
 
             //  CALCULATING THE WANTED QUANTITIES
 

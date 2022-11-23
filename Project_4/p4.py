@@ -15,11 +15,11 @@ beta = 1/(T)
 
 
 E2x2 = np.array([-8, 0, 0, 0, -8, 8])    # array of energies
-# e2x2 = E2x2/N
+e2x2 = E2x2/N
 D2x2 = np.array([ 1, 4, 4, 4, 1, 2])   # array of degenerasi
 
 M2x2 = np.array([4, 2, 0, -2, -4, 0])  # magentization
-# m2x2= M2x2/N
+m2x2= M2x2/N
 Z2x2 = 0
 for i in range(len(E2x2)): 
     Z2x2 += np.exp(-beta*E2x2[i])*D2x2[i]   # finding the partition function
@@ -52,7 +52,7 @@ print()
 #   --- numerical ---
 
 
-EM = np.loadtxt("2x2_n=10^6-2_all.txt")
+EM = np.loadtxt("2x2_n=10^6_all.txt")
 
 
 start = 0
@@ -75,4 +75,4 @@ for j in range(NN):
 
 print( f"  n    |   <e>    |  <e^2>  |   <m> | <m^2>  | Cv   | Xi    |"  )
 for i in range(NN):
-    print(f"{10**(i+1):5.5g}  |" ,f"{avrg_E_l[i]/N:6.6f}",  f"{avrg_E2_l[i]/N**2:6.6f}", f"{avrg_M_l[i]/N:6.6f}",  f"{avrg_M2_l[i]/N**2:6.6f}", f"{Cv_l[i]:6.6g}",  f"{Xi_l[i]:6.6g}"  )
+    print(f"{10**(i+1):5.5g}  |" ,f"{avrg_E_l[i]/N:6.6f}",  f"{avrg_E2_l[i]/N**2:6.6f}", f"{avrg_M_l[i]/N:6.6f}",  f"{avrg_M2_l[i]/N**2:6.6f}", f"{Cv_l[i]:6.6f}",  f"{Xi_l[i]:6.6f}"  )
