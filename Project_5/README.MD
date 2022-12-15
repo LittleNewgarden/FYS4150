@@ -2,7 +2,8 @@ In this project we have solved the unitless time-dependent Schrödinger equation
 The paricle is initially defined with an 2D gaussian wave function u^0 at time step n=0, we solved for u^(n+1) using Au^(n+1) = Bu^n
 
 
-Our proganised ito two folders, include, src. In each of these there is a single file named all_functions.hpp and all_functions.cpp respecfully.
+Our proganised is organised in two folders, include, src. In each of these there is a single file named all_functions.hpp and all_functions.cpp respecfully.
+
 In all_functions.cpp we have defined all the function called appon in the main file : p5.cpp. The declearations for the functions are in all_functions.hpp.
 
 We also have the folder "figures" in this folder we have all the plots we used in our paper.
