@@ -12,7 +12,8 @@ We where for some reason unable to make use of the python armadillo library. Bec
 
 
 To reproduce our results you need to first compile the program using:
-  g++ p5.cpp src/all_functions.cpp -o p5.exe -larmadillo -Wall -O2
+
+    g++ p5.cpp src/all_functions.cpp -o p5.exe -larmadillo -Wall -O2
 
 
 The different comand line argument that the program take in are: step size in x and y "h", time step "dt", end time "T", 
@@ -24,18 +25,28 @@ and finally if we are going to save all u^n "save_u".
 Then to solve the tasks you need to first run the program for the different needed senarios, then you need to run the python script to get the results.
 
 To produce the data needed for the different tasks run the following comands:
+
   for task 7 :
+
     ./p5.exe 0.005 0.000025 0.008 0.25 0.5 0.05 0.05 200 0 0 task7_1 no_slit false 
     ./p5.exe 0.005 0.000025 0.008 0.25 0.5 0.05 0.1 200 0 10000000000 task7_2 double false
 
   for task 8 :
+    
     ./p5.exe 0.005 0.000025 0.002 0.25 0.5 0.05 0.2 200 0 10000000000 task8 double true
 
   for task 9 :
+    
     ./p5.exe 0.005 0.000025 0.002 0.25 0.5 0.05 0.2 200 0 10000000000 task9_single single false
     ./p5.exe 0.005 0.000025 0.002 0.25 0.5 0.05 0.2 200 0 10000000000 task9_triple triple false
 
+
+
 The double slit P file from task 8 is also used in task 9
 
+
 Then run the python script:
-  py p5.py
+  
+    py p5.py
+  
+
